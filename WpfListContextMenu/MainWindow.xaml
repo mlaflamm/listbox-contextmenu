@@ -19,10 +19,10 @@
     		</ToolBar>
     		<ListBox x:Name="listBox" DockPanel.Dock="Top" ItemsSource="{Binding Items}" DisplayMemberPath="Name" SelectionMode="Extended">
                 <ListBox.ContextMenu>
-                   <ContextMenu>
-                      <MenuItem Header="Show Selected" Command="{Binding ShowSelectedCommand, Mode=OneWay}"
-                            CommandParameter="{Binding SelectedItems, ElementName=listBox}"/>
-                   </ContextMenu>
+                    <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="Show Selected" Command="{Binding Path=DataContext.ShowSelectedCommand}"
+                                  CommandParameter="{Binding Path=SelectedItems}"/>
+                    </ContextMenu>
                 </ListBox.ContextMenu>
 			</ListBox>
     	</DockPanel>
