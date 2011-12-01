@@ -31,10 +31,10 @@ namespace WpfListContextMenu
                             new ItemViewModel() {Name = "Item 9"},
                         };
 
-            ShowSelectedCommand = new RelayCommand<IEnumerable>(ShowSelected, CanShowSelected);
+            ShowSelectedCommand = new RelayCommand<IEnumerable<object>>(ShowSelected, CanShowSelected);
         }
 
-        private void ShowSelected(IEnumerable items)
+        private void ShowSelected(IEnumerable<object> items)
         {
             if (items != null)
             {
@@ -47,16 +47,9 @@ namespace WpfListContextMenu
             }
         }
 
-        private bool CanShowSelected(IEnumerable items)
+        private bool CanShowSelected(IEnumerable<object> items)
         {
-            if (items != null)
-            {
-                foreach (var item in items)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return items != null && items.Count() > 0;
         }
     }
 }
