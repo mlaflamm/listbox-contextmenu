@@ -13,3 +13,34 @@ En résumé, comme le ContextMenu ne fait pas partie du visual tree, c’est tr�
 Happy coding!
 
 -Mathieu
+
+    <Window x:Class="WpfListContextMenu.MainWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  	    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		    mc:Ignorable="d"
+		    xmlns:local="clr-namespace:WpfListContextMenu"
+		    d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type=local:MainWindowViewModel}"
+            Title="MainWindow" Height="350" Width="268">
+        <Grid>
+    	    <DockPanel>
+    		    <Menu DockPanel.Dock="Top">
+    			    <MenuItem Header="Show Selected" Command="{Binding ShowSelectedCommand, Mode=OneWay}" CommandParameter="{Binding SelectedItems, ElementName=listBox}"/>
+    		    </Menu>
+    		    <ToolBar DockPanel.Dock="Top">
+    			    <ToolBar.Header>
+    				    <Button Content="Show Selected" Command="{Binding ShowSelectedCommand, Mode=OneWay}" CommandParameter="{Binding SelectedItems, ElementName=listBox}" d:LayoutOverrides="HorizontalMargin"/>
+    			    </ToolBar.Header>
+    		    </ToolBar>
+    		    <ListBox x:Name="listBox" DockPanel.Dock="Top" ItemsSource="{Binding Items}" DisplayMemberPath="Name" SelectionMode="Extended">
+                    <ListBox.ContextMenu>
+                        <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}">
+                            <MenuItem Header="Show Selected" Command="{Binding Path=DataContext.ShowSelectedCommand}"
+                                      CommandParameter="{Binding Path=SelectedItems}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+			    </ListBox>
+    	    </DockPanel>
+        </Grid>
+    </Window>
