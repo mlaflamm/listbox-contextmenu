@@ -1,13 +1,4 @@
-Salut Mathieu, je suis en train de devenir fou avec un probleme de ContextMenu dans un ListBox. 
-Je ne suis pas capable de binder des commandes a un contect menu. J'ai fais un petit projet pour 
-reproduire mon probleme. J'ai un ListBox bindé sur un view model. Dans ce view model j'ai une 
-commande qui affiche un message avec les items selectionés dans la liste. J'ai bindé cette commande 
-a trois elements: un menu item dans le menu bar, un bouton dans un tool bar et finalement dans un 
-menu item dans le context menu de la liste. Le binding du context menu ne fonctionne pas mais ca 
-fonctione pour les 2 autres items. Je suis vraiment desesperé. Il semble que ce soit un probleme connu 
-a cause que le context menu n'est pas dans le visual tree. Je cherche un solution sans code-behind et 
-celles que j'ai trouvé sur le web ne fonctionne pas (ou je ne comprend pas comment elles fonctionnent). 
-C'est pourquoi je demande ton aide quand tu auras deux minutes. 
+Salut Mathieu, je suis en train de devenir fou avec un problÃ¨me de ContextMenu dans un ListBox. Je ne suis pas capable de binder des commandes Ã  un context menu. J'ai fait un petit projet pour reproduire mon problÃ¨me. J'ai un ListBox bindÃ© sur un view model. Dans ce view model j'ai une commande qui affiche un message avec les items sÃ©lectionnÃ©s dans la liste. J'ai bindÃ© cette commande a trois Ã©lÃ©ments: un menu item dans le menu bar, un bouton dans un tool bar et finalement dans un menu item dans le context menu de la liste. Le binding du context menu ne fonctionne pas mais Ã§a fonctionne pour les 2 autres items. Je suis vraiment dÃ©sespÃ©rÃ©. Il semble que ce soit un problÃ¨me connu Ã  cause que le context menu n'est pas dans le visual tree. Je cherche une solution sans code-behind et celles que j'ai trouvÃ© sur le web ne fonctionne pas (ou je ne comprends pas comment elles fonctionnent). C'est pourquoi je demande ton aide quand tu auras deux minutes. 
 
 Merci. 
 
@@ -15,50 +6,10 @@ Merci.
 
 --
 
-C’en était une vraiment pas facile.  J’ai dû Googler et expérimenter beaucoup.  Mais j’ai trouvé une solution 
-raisonnablement concise qui fonctionne parfaitement.  J’ai "poussé" la solution dans ton Git. Voici 
-ci-dessous le nouveau XAML avec les changements en vert. 
+Câ€™en Ã©tait une vraiment pas facile.  Jâ€™ai dÃ» Googler et expÃ©rimenter beaucoup.  Mais jâ€™ai trouvÃ© une solution raisonnablement concise qui fonctionne parfaitement.  Jâ€™ai "poussÃ©" la solution dans ton Git. Voici ci-dessous le nouveau XAML avec les changements en vert. 
 
-En résumé, comme le ContextMenu ne fait pas partie du visual tree, c’est très difficile de binder sur 
-le list box à partir de celui-ci.  Alors j’ai inversé un peu les convention et j’ai passé le listbox 
-dans le DataContext du ContextMenu.  Ensuite, je suis capable d’aller rechercher la commande dans le 
-view model en accédant au DataContext de ce ListBox.  La piste que j’ai trouvée sur Google est d’utiliser 
-la propriété PlacementTarget du ContextMenu pour accéder au ListBox.  C’est légèrement tordu, mais une 
-fois qu’on y réfléchit bien, c’est pas si compliqué que ça.
+En rÃ©sumÃ©, comme le ContextMenu ne fait pas partie du visual tree, câ€™est trÃ¨s difficile de binder sur le list box Ã  partir de celui-ci.  Alors jâ€™ai inversÃ© un peu les conventions et jâ€™ai passÃ© le listbox dans le DataContext du ContextMenu.  Ensuite, je suis capable dâ€™aller rechercher la commande dans le view model en accÃ©dant au DataContext de ce ListBox.  La piste que jâ€™ai trouvÃ©e sur Google est dâ€™utiliser la propriÃ©tÃ© PlacementTarget du ContextMenu pour accÃ©der au ListBox.  Câ€™est lÃ©gÃ¨rement tordu, mais une fois quâ€™on y rÃ©flÃ©chit bien, ce nâ€™est pas si compliquÃ© que Ã§a.
 
 Happy coding!
 
-- Mathieu
-
---
-
-<Window x:Class="WpfListContextMenu.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-              mc:Ignorable="d"
-              xmlns:local="clr-namespace:WpfListContextMenu"
-              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type=local:MainWindowViewModel}"
-        Title="MainWindow" Height="350" Width="268">
-    <Grid>
-       <DockPanel>
-              <Menu DockPanel.Dock="Top">
-                     <MenuItem Header="Show Selected" Command="{Binding ShowSelectedCommand, Mode=OneWay}" CommandParameter="{Binding SelectedItems, ElementName=listBox}"/>
-              </Menu>
-              <ToolBar DockPanel.Dock="Top">
-                     <ToolBar.Header>
-                           <Button Content="Show Selected" Command="{Binding ShowSelectedCommand, Mode=OneWay}" CommandParameter="{Binding SelectedItems, ElementName=listBox}" d:LayoutOverrides="HorizontalMargin"/>
-                     </ToolBar.Header>
-              </ToolBar>
-              <ListBox x:Name="listBox" DockPanel.Dock="Top" ItemsSource="{Binding Items}" DisplayMemberPath="Name" SelectionMode="Extended">
-                <ListBox.ContextMenu>
-                    <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}">
-                        <MenuItem Header="Show Selected" Command="{Binding Path=DataContext.ShowSelectedCommand}"
-                                  CommandParameter="{Binding Path=SelectedItems}"/>
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-                     </ListBox>
-       </DockPanel>
-    </Grid>
-</Window>
+-Mathieu
