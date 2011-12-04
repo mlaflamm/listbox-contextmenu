@@ -58,8 +58,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ItemViewModel.cs" />
+    <Compile Include="ListBoxUserControl.xaml.cs">
+      <DependentUpon>ListBoxUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Page Include="ListBoxUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

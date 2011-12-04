@@ -9,22 +9,7 @@
         Title="MainWindow" Height="350" Width="268">
     <Grid>
     	<DockPanel>
-    		<Menu DockPanel.Dock="Top">
-    			<MenuItem Header="Show Selected" Command="{Binding ShowSelectedCommand, Mode=OneWay}" CommandParameter="{Binding SelectedItems, ElementName=listBox}"/>
-    		</Menu>
-    		<ToolBar DockPanel.Dock="Top">
-    			<ToolBar.Header>
-    				<Button Content="Show Selected" Command="{Binding ShowSelectedCommand, Mode=OneWay}" CommandParameter="{Binding SelectedItems, ElementName=listBox}" d:LayoutOverrides="HorizontalMargin"/>
-    			</ToolBar.Header>
-    		</ToolBar>
-    		<ListBox x:Name="listBox" DockPanel.Dock="Top" ItemsSource="{Binding Items}" DisplayMemberPath="Name" SelectionMode="Extended">
-                <ListBox.ContextMenu>
-                    <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}">
-                        <MenuItem Header="Show Selected" Command="{Binding Path=DataContext.ShowSelectedCommand}"
-                                  CommandParameter="{Binding Path=SelectedItems}"/>
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-			</ListBox>
+    		<local:ListBoxUserControl DataContext="{Binding Items}" Width="252" d:LayoutOverrides="Height"/>
     	</DockPanel>
     </Grid>
 </Window>
